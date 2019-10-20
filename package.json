@@ -42,7 +42,8 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
-    "deploy": "gatsby build && gh-pages -d public -b master"
+    "deploy": "gatsby build && gh-pages -d public -b master",
+    "deploy:travis": "gatsby build --prefix-paths && gh-pages -d public -r https://$GH_TOKEN@github.com/lirantal/dockly.git"
   },
   "repository": {
     "type": "git",
