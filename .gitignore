@@ -59,6 +59,7 @@ typings/
 
 # Next
 .next
+out/
 
 # Yarn
 yarn-error.log
