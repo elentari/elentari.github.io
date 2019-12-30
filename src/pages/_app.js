@@ -2,6 +2,8 @@ import { DefaultSeo } from 'next-seo';
 import { ThemeProvider, Styled } from 'theme-ui';
 import Head from 'next/head';
 
+import 'glider-js/glider.min.css';
+
 import SEO from '../../next-seo.config';
 import theme from '../theme';
 import { GlobalStyle } from '../components/GlobalStyle';

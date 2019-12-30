@@ -20,13 +20,13 @@ export const Footer = () => (
     <Link href="/cv" passHref>
       <NavLink title="CV">CV</NavLink>
     </Link>
-    <Link href="/about" passHref>
-      <NavLink title="About">About</NavLink>
+    <Link href="/gallery" passHref>
+      <NavLink title="Gallery">Gallery</NavLink>
     </Link>
     <Link href="/contact" passHref>
       <NavLink title="Contact">Contact</NavLink>
     </Link>
     <div sx={{ mx: 'auto' }} />
-    <div sx={{ p: 2 }}>© 2019 Lana Medved</div>
+    <div sx={{ p: 2 }}>© 2020 Lana Medved</div>
   </Container>
 );

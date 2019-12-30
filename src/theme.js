@@ -2,9 +2,11 @@ export default {
   colors: {
     text: '#000',
     background: '#fff',
-    primary: '#409',
+    primary: '#6b52ae',
     secondary: '#30c',
-    muted: '#f6f6f6',
+    muted: '#f9f9f9',
+    muted2: '#f4f7fc',
+    muted3: '#ebeef0',
   },
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
@@ -26,6 +28,10 @@ export default {
       maxWidth: '1024px',
       px: 3,
     },
+  },
+  radii: {
+    default: 4,
+    circle: '50%',
   },
   styles: {
     root: {
@@ -87,6 +93,7 @@ export default {
     pre: {
       fontFamily: 'monospace',
       overflowX: 'auto',
+      bg: 'muted3',
       code: {
         color: 'inherit',
       },
@@ -115,6 +122,30 @@ export default {
   links: {
     nav: {
       p: 2,
+    },
+  },
+  cards: {
+    primary: {
+      padding: 2,
+      borderRadius: 4,
+      border: '1px solid',
+      borderColor: '#dfe1e5',
+    },
+  },
+  variants: {
+    fab: {
+      backgroundColor: '#fff',
+      color: '#757575',
+      boxShadow: '0 0 0 1px rgba(0,0,0,0.04), 0 4px 8px 0 rgba(0,0,0,0.20)',
+      cursor: 'pointer',
+      height: '36px',
+      width: '36px',
+      borderRadius: '50%',
+      cursor: 'pointer',
+      display: 'block',
+      position: 'relative',
+      border: '1px solid #dfe1e5',
+      zIndex: '0',
     },
   },
 };
