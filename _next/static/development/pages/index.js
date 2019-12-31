@@ -91608,6 +91608,69 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
  // import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
+function getMousePos(e) {
+  return {
+    x: e.clientX,
+    y: e.clientY
+  };
+}
+
+function moveJoint(mouse, joint, degreeLimit) {
+  var degrees = getMouseDegrees(mouse.x, mouse.y, degreeLimit);
+  joint.rotation.y = three__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(degrees.x);
+  joint.rotation.x = three__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(degrees.y);
+}
+
+function getMouseDegrees(x, y, degreeLimit) {
+  var dx = 0,
+      dy = 0,
+      xdiff,
+      xPercentage,
+      ydiff,
+      yPercentage;
+  var w = {
+    x: window.innerWidth,
+    y: window.innerHeight
+  }; // Left (Rotates neck left between 0 and -degreeLimit)
+  // 1. If cursor is in the left half of screen
+
+  if (x <= w.x / 2) {
+    // 2. Get the difference between middle of screen and cursor position
+    xdiff = w.x / 2 - x; // 3. Find the percentage of that difference (percentage toward edge of screen)
+
+    xPercentage = xdiff / (w.x / 2) * 100; // 4. Convert that to a percentage of the maximum rotation we allow for the neck
+
+    dx = degreeLimit * xPercentage / 100 * -1;
+  } // Right (Rotates neck right between 0 and degreeLimit)
+
+
+  if (x >= w.x / 2) {
+    xdiff = x - w.x / 2;
+    xPercentage = xdiff / (w.x / 2) * 100;
+    dx = degreeLimit * xPercentage / 100;
+  } // Up (Rotates neck up between 0 and -degreeLimit)
+
+
+  if (y <= w.y / 2) {
+    ydiff = w.y / 2 - y;
+    yPercentage = ydiff / (w.y / 2) * 100; // Note that I cut degreeLimit in half when she looks up
+
+    dy = degreeLimit * 0.5 * yPercentage / 100 * -1;
+  } // Down (Rotates neck down between 0 and degreeLimit)
+
+
+  if (y >= w.y / 2) {
+    ydiff = y - w.y / 2;
+    yPercentage = ydiff / (w.y / 2) * 100;
+    dy = degreeLimit * yPercentage / 100;
+  }
+
+  return {
+    x: dx,
+    y: dy
+  };
+}
+
 function Avatar(_ref) {
   var url = _ref.url;
   var gltf = Object(react_three_fiber__WEBPACK_IMPORTED_MODULE_2__["useLoader"])(three_examples_jsm_loaders_GLTFLoader__WEBPACK_IMPORTED_MODULE_3__["GLTFLoader"], url);
@@ -91623,26 +91686,50 @@ function Avatar(_ref) {
   var scene = gltf.scene,
       animations = gltf.animations;
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var neck;
+    var waist;
+    scene.traverse(function (object) {
+      if (object.isBone && object.name === 'arissaNeck') {
+        neck = object;
+      }
+
+      if (object.isBone && object.name === 'arissaSpine') {
+        waist = object;
+      }
+
+      if (object.isMesh) {
+        object.castShadow = true;
+        object.receiveShadow = true;
+      }
+    });
+    scene.scale.set(7, 7, 7);
+    scene.position.y = -11;
     var idleAnimationClip = three__WEBPACK_IMPORTED_MODULE_0__["AnimationClip"].findByName(animations, 'idle');
+    idleAnimationClip.tracks.splice(3, 3);
+    idleAnimationClip.tracks.splice(9, 3);
     var animationAction = mixer.clipAction(idleAnimationClip, scene);
     animationAction.play();
-    return function () {
-      return mixer.uncacheClip(idleAnimationClip);
-    };
-  }, []);
-  scene.traverse(function (object) {
-    if (object.isMesh) {
-      object.castShadow = true;
-      object.receiveShadow = true;
+
+    function onMouseMove(e) {
+      var mousecoords = getMousePos(e);
+
+      if (neck && waist) {
+        moveJoint(mousecoords, neck, 50);
+        moveJoint(mousecoords, waist, 30);
+      }
     }
-  });
-  scene.scale.set(7, 7, 7);
-  scene.position.y = -11;
+
+    document.addEventListener('mousemove', onMouseMove);
+    return function () {
+      mixer.uncacheClip(idleAnimationClip);
+      document.removeEventListener('mousemove', onMouseMove);
+    };
+  }, [scene, animations]);
   return __jsx("primitive", {
     object: gltf.scene,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31
+      lineNumber: 111
     },
     __self: this
   });
@@ -91681,7 +91768,7 @@ function BackgroundCircle() {
       lineNumber: 6
     },
     __self: this
-  }), __jsx("meshBasicMaterial", {
+  }), __jsx("meshToonMaterial", {
     attach: "material",
     color: 0x6b52ae,
     __source: {
@@ -91876,19 +91963,21 @@ function Lights(_ref) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_three_fiber__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-three-fiber */ "./node_modules/react-three-fiber/web.js");
-/* harmony import */ var next_seo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next-seo */ "./node_modules/next-seo/lib/index.js");
-/* harmony import */ var next_seo__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_seo__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_PageLayout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/PageLayout */ "./src/components/PageLayout.js");
-/* harmony import */ var _components_three_Cube__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/three/Cube */ "./src/components/three/Cube.js");
-/* harmony import */ var _components_three_Lights__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/three/Lights */ "./src/components/three/Lights.js");
-/* harmony import */ var _components_three_Floor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/three/Floor */ "./src/components/three/Floor.js");
-/* harmony import */ var _components_three_BackgroundCircle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/three/BackgroundCircle */ "./src/components/three/BackgroundCircle.js");
-/* harmony import */ var _components_three_Avatar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/three/Avatar */ "./src/components/three/Avatar.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_three_fiber__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-three-fiber */ "./node_modules/react-three-fiber/web.js");
+/* harmony import */ var next_seo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! next-seo */ "./node_modules/next-seo/lib/index.js");
+/* harmony import */ var next_seo__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_seo__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_PageLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/PageLayout */ "./src/components/PageLayout.js");
+/* harmony import */ var _components_three_Cube__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/three/Cube */ "./src/components/three/Cube.js");
+/* harmony import */ var _components_three_Lights__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/three/Lights */ "./src/components/three/Lights.js");
+/* harmony import */ var _components_three_Floor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/three/Floor */ "./src/components/three/Floor.js");
+/* harmony import */ var _components_three_BackgroundCircle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/three/BackgroundCircle */ "./src/components/three/BackgroundCircle.js");
+/* harmony import */ var _components_three_Avatar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/three/Avatar */ "./src/components/three/Avatar.js");
 var _jsxFileName = "/Users/ivicabatinic/Documents/projects/DEV_PLAYGROUND/elentari.github.io/src/pages/index.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
 
 
 
@@ -91900,33 +91989,34 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 function IndexPage() {
-  return __jsx(_components_PageLayout__WEBPACK_IMPORTED_MODULE_3__["PageLayout"], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 14
-    },
-    __self: this
-  }, __jsx(next_seo__WEBPACK_IMPORTED_MODULE_2__["NextSeo"], {
-    title: "Home",
+  return __jsx(_components_PageLayout__WEBPACK_IMPORTED_MODULE_4__["PageLayout"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 15
     },
     __self: this
-  }), __jsx(react_three_fiber__WEBPACK_IMPORTED_MODULE_1__["Canvas"], {
+  }, __jsx(next_seo__WEBPACK_IMPORTED_MODULE_3__["NextSeo"], {
+    title: "Home",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 16
+    },
+    __self: this
+  }), __jsx(react_three_fiber__WEBPACK_IMPORTED_MODULE_2__["Canvas"], {
     camera: {
       position: [0, -3, 50],
       fov: 20,
       near: 0.1,
       far: 1000
     },
-    gl: {
-      antialias: true,
-      shadowMap: {
-        enabled: true
-      }
+    onCreated: function onCreated(_ref) {
+      var gl = _ref.gl;
+      gl.shadowMap.enabled = true;
+      gl.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["PCFSoftShadowMap"];
+      gl.gammaFactor = 2.2;
+      gl.gammaOutput = true;
+      gl.antialias = true;
     },
-    shadowMap: true,
     style: {
       position: 'absolute',
       top: 0,
@@ -91936,45 +92026,45 @@ function IndexPage() {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 16
+      lineNumber: 17
     },
     __self: this
-  }, __jsx(_components_three_Lights__WEBPACK_IMPORTED_MODULE_5__["Lights"], {
+  }, __jsx(_components_three_Lights__WEBPACK_IMPORTED_MODULE_6__["Lights"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22
+      lineNumber: 28
     },
     __self: this
-  }), __jsx(_components_three_BackgroundCircle__WEBPACK_IMPORTED_MODULE_7__["BackgroundCircle"], {
+  }), __jsx(_components_three_BackgroundCircle__WEBPACK_IMPORTED_MODULE_8__["BackgroundCircle"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 23
+      lineNumber: 29
     },
     __self: this
-  }), __jsx(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-    fallback: __jsx(_components_three_Cube__WEBPACK_IMPORTED_MODULE_4__["Cube"], {
+  }), __jsx(react__WEBPACK_IMPORTED_MODULE_1__["Suspense"], {
+    fallback: __jsx(_components_three_Cube__WEBPACK_IMPORTED_MODULE_5__["Cube"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 24
+        lineNumber: 30
       },
       __self: this
     }),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 30
     },
     __self: this
-  }, __jsx(_components_three_Avatar__WEBPACK_IMPORTED_MODULE_8__["Avatar"], {
+  }, __jsx(_components_three_Avatar__WEBPACK_IMPORTED_MODULE_9__["Avatar"], {
     url: "/avatar.glb",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 31
     },
     __self: this
-  })), __jsx(_components_three_Floor__WEBPACK_IMPORTED_MODULE_6__["Floor"], {
+  })), __jsx(_components_three_Floor__WEBPACK_IMPORTED_MODULE_7__["Floor"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 33
     },
     __self: this
   })));
@@ -91984,7 +92074,7 @@ function IndexPage() {
 
 /***/ }),
 
-/***/ 1:
+/***/ 0:
 /*!******************************************************************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2F&absolutePagePath=%2FUsers%2Fivicabatinic%2FDocuments%2Fprojects%2FDEV_PLAYGROUND%2Felentari.github.io%2Fsrc%2Fpages%2Findex.js ***!
   \******************************************************************************************************************************************************************************/
@@ -92007,5 +92097,5 @@ module.exports = dll_5f137288facb1107b491;
 
 /***/ })
 
-},[[1,"static/runtime/webpack.js"]]]);
+},[[0,"static/runtime/webpack.js"]]]);
 //# sourceMappingURL=index.js.map
