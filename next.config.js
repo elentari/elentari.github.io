@@ -16,6 +16,12 @@ module.exports = withPlugins(
         pageExtensions: ['js', 'jsx', 'md', 'mdx'],
       },
     ],
+    [
+      withTM,
+      {
+        transpileModules: ['three/examples/jsm/loaders/*'],
+      },
+    ],
   ],
   nextConfig
 );

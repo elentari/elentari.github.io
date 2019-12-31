@@ -118,6 +118,9 @@ export default {
     img: {
       maxWidth: '100%',
     },
+    Main: {
+      position: 'relative',
+    },
   },
   links: {
     nav: {

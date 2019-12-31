@@ -1,33 +1,30 @@
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from 'react-three-fiber';
+import React, { Suspense } from 'react';
+import { Canvas } from 'react-three-fiber';
 import { NextSeo } from 'next-seo';
 
 import { PageLayout } from '../components/PageLayout';
-
-function Thing() {
-  const ref = useRef();
-  useFrame(() => (ref.current.rotation.x = ref.current.rotation.y += 0.01));
-  return (
-    <mesh
-      ref={ref}
-      onClick={e => console.log('click')}
-      onPointerOver={e => console.log('hover')}
-      onPointerOut={e => console.log('unhover')}
-    >
-      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-      <meshNormalMaterial attach="material" />
-    </mesh>
-  );
-}
+import { Cube } from '../components/three/Cube';
+import { Lights } from '../components/three/Lights';
+import { Floor } from '../components/three/Floor';
+import { BackgroundCircle } from '../components/three/BackgroundCircle';
+import { Avatar } from '../components/three/Avatar';
 
 function IndexPage() {
   return (
     <PageLayout>
       <NextSeo title="Home" />
       <Canvas
+        camera={{ position: [0, -3, 50], fov: 20, near: 0.1, far: 1000 }}
+        gl={{ antialias: true, shadowMap: { enabled: true } }}
+        shadowMap
         style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
       >
-        <Thing />
+        <Lights />
+        <BackgroundCircle />
+        <Suspense fallback={<Cube />}>
+          <Avatar url="/avatar.glb" />
+        </Suspense>
+        <Floor />
       </Canvas>
     </PageLayout>
   );
