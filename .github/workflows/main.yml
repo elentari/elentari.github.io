@@ -1,0 +1,15 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Depoy
+        run: npm run-script deploy
