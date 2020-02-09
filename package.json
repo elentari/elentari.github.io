@@ -14,7 +14,7 @@
     "export": "next export",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "test": "echo \"Write tests!\"",
-    "deploy": "next build && next export && touch out/.nojekyll && gh-pages -d out -b gh-pages --dotfiles"
+    "deploy": "next build && next export && touch out/.nojekyll && gh-pages -d out -b master --dotfiles"
   },
   "dependencies": {
     "@mdx-js/loader": "^1.5.5",
