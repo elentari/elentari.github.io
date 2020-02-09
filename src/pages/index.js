@@ -1,39 +1,77 @@
-import * as THREE from 'three';
-import React, { Suspense } from 'react';
-import { Canvas } from 'react-three-fiber';
+import React from 'react';
+import { Container, Heading, Flex, Box, Text } from '@theme-ui/components';
 import { NextSeo } from 'next-seo';
 
 import { PageLayout } from '../components/PageLayout';
-import { Cube } from '../components/three/Cube';
-import { Lights } from '../components/three/Lights';
-import { Floor } from '../components/three/Floor';
-import { BackgroundCircle } from '../components/three/BackgroundCircle';
-import { Avatar } from '../components/three/Avatar';
+import { Dummy } from '../components/core/Dummy';
 
-function IndexPage() {
-  return (
-    <PageLayout>
-      <NextSeo title="Home" />
-      <Canvas
-        camera={{ position: [0, -3, 50], fov: 20, near: 0.1, far: 1000 }}
-        onCreated={({ gl }) => {
-          gl.shadowMap.enabled = true;
-          gl.shadowMap.type = THREE.PCFSoftShadowMap;
-          gl.gammaFactor = 2.2;
-          gl.gammaOutput = true;
-          gl.antialias = true;
+const CVPage = () => (
+  <PageLayout>
+    <NextSeo title="CV" />
+    <Container>
+      <Dummy
+        m="40px auto"
+        sx={{
+          width: 300,
+          height: 300,
+          borderRadius: 'circle',
+          display: 'block',
         }}
-        style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-      >
-        <Lights />
-        <BackgroundCircle />
-        <Suspense fallback={<Cube />}>
-          <Avatar url="/avatar.glb" />
-        </Suspense>
-        <Floor />
-      </Canvas>
-    </PageLayout>
-  );
-}
+      />
+      <Heading as="h1" sx={{ fontSize: 6, textAlign: 'center', mb: 3 }}>
+        Lana Medved
+      </Heading>
+      <Text sx={{ maxWidth: '400px', m: '0 auto', textAlign: 'center', mb: 4 }}>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+      </Text>
+      <Flex py={4}>
+        <Box px={4} sx={{ flexGrow: 1 }}>
+          <Dummy
+            mb={3}
+            sx={{ width: 150, height: 150, mx: 'auto', display: 'block' }}
+          />
+          <Text mb={3} sx={{ textAlign: 'center' }}>
+            <Dummy sx={{ width: 150 }} />
+          </Text>
+          <Text>
+            <Dummy mb={2} sx={{ width: '100%' }} />
+            <Dummy mb={2} sx={{ width: '100%' }} />
+            <Dummy sx={{ width: '100%' }} />
+          </Text>
+        </Box>
+        <Box px={4} sx={{ flexGrow: 1 }}>
+          <Dummy
+            mb={3}
+            sx={{ width: 150, height: 150, mx: 'auto', display: 'block' }}
+          />
+          <Text mb={3} sx={{ textAlign: 'center' }}>
+            <Dummy sx={{ width: 150 }} />
+          </Text>
+          <Text>
+            <Dummy mb={2} sx={{ width: '100%' }} />
+            <Dummy mb={2} sx={{ width: '100%' }} />
+            <Dummy sx={{ width: '100%' }} />
+          </Text>
+        </Box>
+        <Box px={4} sx={{ flexGrow: 1 }}>
+          <Dummy
+            mb={3}
+            sx={{ width: 150, height: 150, mx: 'auto', display: 'block' }}
+          />
+          <Text mb={3} sx={{ textAlign: 'center' }}>
+            <Dummy sx={{ width: 150 }} />
+          </Text>
+          <Text>
+            <Dummy mb={2} sx={{ width: '100%' }} />
+            <Dummy mb={2} sx={{ width: '100%' }} />
+            <Dummy sx={{ width: '100%' }} />
+          </Text>
+        </Box>
+      </Flex>
+    </Container>
+  </PageLayout>
+);
 
-export default IndexPage;
+export default CVPage;
