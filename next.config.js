@@ -3,9 +3,7 @@ const withMDX = require('@next/mdx')();
 const withTM = require('next-transpile-modules');
 
 const nextConfig = {
-  experimental: {
-    css: true,
-  },
+
 };
 
 module.exports = withPlugins(

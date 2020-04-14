@@ -1,18 +1,19 @@
+import { darken, alpha, saturate } from '@theme-ui/color';
+
 export default {
   colors: {
-    text: '#000',
-    background: '#fff',
-    primary: '#6b52ae',
-    secondary: '#30c',
+    text: '#ffffff',
+    textInverted: '#101012',
+    background: '#101012',
+    primary: '#DC3F7C',
+    secondary: '#ffa053',
     muted: '#f9f9f9',
-    muted2: '#f4f7fc',
-    muted3: '#ebeef0',
   },
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
   fonts: {
     body: '"Roboto", sans-serif',
-    heading: '"Roboto Condensed", sans-serif',
+    heading: '"Roboto", sans-serif',
     monospace: '"Roboto Mono", monospace',
   },
   fontWeights: {
@@ -23,15 +24,12 @@ export default {
     body: 1.5,
     heading: 1.125,
   },
-  layout: {
-    container: {
-      maxWidth: '1024px',
-      px: 3,
-    },
-  },
   radii: {
     default: 4,
     circle: '50%',
+  },
+  zIndices: {
+    navigation: 1000,
   },
   styles: {
     root: {
@@ -118,37 +116,86 @@ export default {
     img: {
       maxWidth: '100%',
     },
-    Main: {
-      position: 'relative',
+  },
+  layout: {
+    container: {
+      maxWidth: '1024px',
+      px: 3,
     },
   },
   links: {
     nav: {
       p: 2,
+      textTransform: 'uppercase',
+      ':hover, &[aria-current="page"]': {
+        color: saturate('primary', 1),
+        bg: alpha('primary', 0.2),
+        borderRadius: 'default',
+      },
     },
   },
-  cards: {
+  text: {
     primary: {
-      padding: 2,
-      borderRadius: 4,
-      border: '1px solid',
-      borderColor: '#dfe1e5',
+      color: 'primary',
     },
   },
-  variants: {
-    fab: {
-      backgroundColor: '#fff',
-      color: '#757575',
-      boxShadow: '0 0 0 1px rgba(0,0,0,0.04), 0 4px 8px 0 rgba(0,0,0,0.20)',
+  cards: {},
+  buttons: {
+    primary: {
+      color: 'textInverted',
+      textTransform: 'uppercase',
+      fontSize: 0,
+      fontWeight: 'heading',
+      bg: 'primary',
+      borderRadius: 0,
       cursor: 'pointer',
-      height: '36px',
-      width: '36px',
-      borderRadius: '50%',
+      py: 2,
+      '&:hover': {
+        bg: darken('primary', 0.1),
+      },
+      '&:active': {
+        bg: darken('primary', 0.15),
+      },
+    },
+    secondary: {
+      color: 'textInverted',
+      textTransform: 'uppercase',
+      fontSize: 0,
+      fontWeight: 'heading',
+      bg: 'secondary',
+      borderRadius: 0,
       cursor: 'pointer',
-      display: 'block',
-      position: 'relative',
-      border: '1px solid #dfe1e5',
-      zIndex: '0',
+      py: 2,
+      '&:hover': {
+        bg: darken('secondary', 0.1),
+      },
+      '&:active': {
+        bg: darken('secondary', 0.15),
+      },
+    },
+    outline: {
+      white: {
+        color: 'text',
+        textTransform: 'uppercase',
+        fontSize: 0,
+        fontWeight: 'heading',
+        bg: 'transparent',
+        border: '1px solid',
+        borderColor: 'text',
+        borderRadius: 0,
+        cursor: 'pointer',
+        py: 2,
+        '&:hover': {
+          color: 'textInverted',
+          bg: 'text',
+        },
+        '&:active': {
+          color: 'textInverted',
+          bg: darken('text', 0.1),
+          borderColor: darken('text', 0.1),
+        },
+      },
     },
   },
+  variants: {},
 };

@@ -34,7 +34,7 @@ export const Header = () => (
             <a title="Home">
               <img
                 alt="Lana Medved"
-                src="https://contrast.now.sh/fff/6b52ae?size=48&fontSize=2&baseline=2&fontWeight=900&radius=32&text=LM"
+                src="https://contrast.now.sh/fff/6b52ae?size=48&fontSize=2&baseline=2&fontWeight=900&radius=32&text=HM"
               />
               <span
                 sx={{
